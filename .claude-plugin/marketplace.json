@@ -1,0 +1,15 @@
+{
+  "name": "mm-harness-marketplace",
+  "description": "Manager's Manager AI 파트 Claude Code 하네스",
+  "owner": {
+    "name": "letsgojh"
+  },
+  "allowCrossMarketplaceDependenciesOn": ["claude-plugins-official"],
+  "plugins": [
+    {
+      "name": "mm-harness",
+      "source": "./plugins/mm-harness",
+      "description": "AI 파트 기능을 설계(grilling) → TDD 구현 → pytest → 셀프 리뷰 → develop 대상 PR 까지 역할별 에이전트로 돌리고, PR 리뷰에 답한다"
+    }
+  ]
+}

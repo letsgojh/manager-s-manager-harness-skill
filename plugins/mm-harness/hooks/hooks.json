@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/ai-tests-gate.sh",
+            "timeout": 400
+          }
+        ]
+      }
+    ]
+  }
+}
