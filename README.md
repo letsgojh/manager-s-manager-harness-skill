@@ -19,7 +19,7 @@ Claude Code 에서:
 
 | 명령 | 하는 일 |
 |---|---|
-| `/mm-harness:ai-feature <기능 설명>` | 설계 → 테스트 먼저 구현 → pytest → 셀프 리뷰 → develop 대상 PR 생성. PR 을 올리면 끝나고 머지는 사람이 한다 |
+| `/mm-harness:ai-feature <#이슈번호 \| 기능 설명>` | 설계 → 테스트 먼저 구현 → pytest → 셀프 리뷰 → develop 대상 PR 생성. 이슈로 부르면 설계 확정을 이슈 댓글로 남기고 PR 에 `Closes` 를 단다. BE·FE 에 전달할 것이 있을 때만 `ai→be`·`ai→fe` 이슈 초안을 만들어 확인받고 올린다. 머지는 사람이 한다 |
 | `/mm-harness:ai-pr-reply [PR번호]` | PR 리뷰를 모아 지적마다 판정. 맞는 지적은 고쳐서 push 후 답글, 반박·질문 답글은 사용자 승인 후 단다 |
 | `/mm-harness:grill-me` | 설계·계획만 따로 질문 라운드로 다듬는다 |
 
@@ -34,6 +34,11 @@ Claude Code 에서:
 | 스킬 `ai-pr-reply` | `skills/ai-pr-reply/` | PR 리뷰 답변. `superpowers:receiving-code-review` 원칙 |
 | 스킬 `grilling`, `grill-me` | `skills/grilling/`, `skills/grill-me/` | 설계를 사용자와 질문 라운드로 정한다. 아래 출처 참고 |
 | Stop 훅 | `hooks/ai-tests-gate.sh` | `ai/*.py` 가 바뀐 채 응답을 끝내면 `ai/.venv` 로 pytest. 실패하면 끝내지 못하게 막고, 같은 상태로 통과했으면 건너뛰고, 연속 3번 막으면 연다. `ai/.venv` 가 없는 저장소에서는 아무것도 하지 않는다 |
+
+## 서비스 저장소에 필요한 것
+
+- 이슈 템플릿 `.github/ISSUE_TEMPLATE/ai-feature.md`: `ai-feature` 요청 양식 (목표, 먼저 읽을 것, 범위, 지킬 것, 정할 것, 완료 조건, 선행 이슈)
+- 라벨 `ai→be`, `ai→fe`, `contract`, `합의됨`: 다른 파트 전달과 선행 계약 확인에 쓴다
 
 ## 플러그인에 담지 못하는 설정
 
