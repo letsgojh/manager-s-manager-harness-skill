@@ -22,6 +22,9 @@ Claude Code 에서:
 | `/mm-harness:ai-feature <#이슈번호 \| 기능 설명>` | 설계 → 테스트 먼저 구현 → pytest → 셀프 리뷰 → develop 대상 PR 생성. 이슈로 부르면 설계 확정을 이슈 댓글로 남기고 PR 에 `Closes` 를 단다. BE·FE 에 전달할 것이 있을 때만 `ai→be`·`ai→fe` 이슈 초안을 만들어 확인받고 올린다. 머지는 사람이 한다 |
 | `/mm-harness:ai-pr-reply [PR번호]` | PR 리뷰를 모아 지적마다 판정. 맞는 지적은 고쳐서 push 후 답글, 반박·질문 답글은 사용자 승인 후 단다 |
 | `/mm-harness:grill-me` | 설계·계획만 따로 질문 라운드로 다듬는다 |
+| `/mm-harness:teach <대상>` | 변경·PR·설계·서브시스템을 쉽게 설명한다. how·why 절차를 돌려 하나의 설명으로 엮는다. 사용자가 부를 때만 동작 |
+| `/mm-harness:how <질문>` | "X 는 어떻게 동작하나". 코드를 탐색해 구조와 실행 흐름을 설명한다. 사용자가 부를 때만 동작 |
+| `/mm-harness:why <질문>` | "왜 이렇게 했나". 결정 기록·계약·이슈·PR·git 이력을 조사해 근거와 확신 수준을 붙여 답한다. 사용자가 부를 때만 동작 |
 
 ## 구성
 
@@ -32,13 +35,15 @@ Claude Code 에서:
 | 에이전트 `ai-reviewer` | `agents/ai-reviewer.md` | sonnet, 읽기 전용. diff 리뷰 |
 | 스킬 `ai-feature` | `skills/ai-feature/` | 기능 하네스. small 은 메인 세션에서, large 는 grilling 으로 설계 확정 후 `superpowers:subagent-driven-development` |
 | 스킬 `ai-pr-reply` | `skills/ai-pr-reply/` | PR 리뷰 답변. `superpowers:receiving-code-review` 원칙 |
-| 스킬 `grilling`, `grill-me` | `skills/grilling/`, `skills/grill-me/` | 설계를 사용자와 질문 라운드로 정한다. 아래 출처 참고 |
+| 스킬 `grilling`, `grill-me` | `skills/grilling/`, `skills/grill-me/` | 설계를 사용자와 질문 라운드로 정한다. 질문마다 배경·선택지별 결과·추천 이유를 쓰고, 라운드마다 이해한 결정을 확인한다. 아래 출처 참고 |
+| 스킬 `how`, `why`, `teach` | `skills/how/`, `skills/why/`, `skills/teach/` | 사용자가 모르는 것을 물을 때 쓰는 설명 스킬. `disable-model-invocation` 이라 파이프라인 중에 자동으로 끼어들지 않는다. 아래 출처 참고 |
 | Stop 훅 | `hooks/ai-tests-gate.sh` | `ai/*.py` 가 바뀐 채 응답을 끝내면 `ai/.venv` 로 pytest. 실패하면 끝내지 못하게 막고, 같은 상태로 통과했으면 건너뛰고, 연속 3번 막으면 연다. `ai/.venv` 가 없는 저장소에서는 아무것도 하지 않는다 |
 
 ## 서비스 저장소에 필요한 것
 
 - 이슈 템플릿 `.github/ISSUE_TEMPLATE/ai-feature.md`: `ai-feature` 요청 양식 (목표, 먼저 읽을 것, 범위, 지킬 것, 정할 것, 완료 조건, 선행 이슈)
 - 라벨 `ai→be`, `ai→fe`, `contract`, `합의됨`: 다른 파트 전달과 선행 계약 확인에 쓴다
+- 워크플로 `.github/workflows/ai-handoff-agreed.yml`: 넘긴 이슈가 합의되면 기다리던 AI 요청 이슈를 팀 디스코드로 알린다. 하네스는 사용자 컴퓨터 세션에서 돌아 웹훅이 직접 깨울 수 없으므로, 알림을 보고 다시 시작하거나 세션을 켜 두고 `/loop` 로 감시한다
 
 ## 플러그인에 담지 못하는 설정
 
@@ -50,3 +55,4 @@ Claude Code 에서:
 ## 출처
 
 - `skills/grilling`, `skills/grill-me`: [mattpocock/skills](https://github.com/mattpocock/skills) (MIT, Copyright (c) 2026 Matt Pocock). 각 디렉터리의 `LICENSE` 참고. `grill-me` 는 플러그인 이름공간에 맞춰 호출할 스킬 이름만 바꿨다
+- `skills/how`, `skills/why`, `skills/teach`: [michael-denyer/pstack-claude](https://github.com/michael-denyer/pstack-claude) (MIT, Copyright (c) 2026 Lauren Tan, Michael Denyer, 원작 pstack by Lauren Tan). 각 디렉터리의 `LICENSE` 참고. Claude Code 전용으로 줄이고 한국어로 옮기고 이 저장소의 근거 출처를 더했다
