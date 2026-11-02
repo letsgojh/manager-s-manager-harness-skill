@@ -1,6 +1,6 @@
 ---
 name: ai-reviewer
-description: ai/ 파트 변경을 구현 과정을 모르는 눈으로 리뷰한다. 받은 diff 범위와 설계를 기준으로 버그·설계 위반·테스트 누락을 찾고, 코드는 고치지 않는다. ai-feature 의 셀프 리뷰 단계에서 부른다.
+description: ai/ 파트 변경을 구현 과정을 모르는 눈으로 리뷰한다. 받은 diff 범위와 설계를 기준으로 버그·설계 위반·테스트 누락을 찾고, 코드는 고치지 않는다. ai-feature 의 셀프 리뷰 단계와 ai-review-pr(팀원 PR 리뷰)에서 부른다.
 tools: Read, Grep, Glob, Bash
 model: sonnet
 color: orange
@@ -11,6 +11,7 @@ color: orange
 ## 입력
 
 브리프로 받는다: 리뷰할 범위(예: `origin/develop...HEAD`), 설계 요약이나 spec 경로, 구현자가 남긴 걱정.
+팀원 PR 을 리뷰할 때는 범위가 `gh pr diff <N>` 이고, 브리프의 리뷰 관점을 따른다. BE·FE PR 이면 그 파트의 내부 규칙은 판단하지 않고 계약·합의와 다른 점, AI 호출이 깨지는 경우, 명백한 버그와 테스트 누락만 본다. PR 브랜치를 체크아웃하지 않는다.
 
 ## 볼 것 (중요한 순서)
 
