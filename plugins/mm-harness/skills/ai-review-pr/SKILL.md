@@ -64,11 +64,10 @@ PR 마다 초안을 만든다. 팀의 리뷰 문체를 따른다: 한국어, 존
 |---|---|---|---|
 | 1 | `파일:줄` | should-fix | <한 줄> |
 
-**제안하는 리뷰 상태**: COMMENT | REQUEST_CHANGES | APPROVE — <이유>
 ```
 
 - 인라인으로 달 지적과 본문에만 둘 지적을 나눈다. 인라인은 diff 에 있는 줄에만 달 수 있다.
-- 사용자에게 초안 전체를 보여 주고 **지적별로 넣을지 뺄지, 리뷰 상태를 무엇으로 할지** 고르게 한다. 리뷰 상태는 사용자가 정한다. 에이전트가 혼자 APPROVE·REQUEST_CHANGES 를 정하지 않는다.
+- 사용자에게 초안 전체를 보여 주고 **지적별로 넣을지 뺄지** 고르게 한다. 리뷰 상태는 묻지 않는다. 이 스킬은 리뷰 코멘트만 남기고 항상 `COMMENT` 로 올린다. PR 승인·변경 요청 같은 상태 판단은 PR 담당 리뷰어 몫이다. 심각도(blocker 등)는 표 안에서만 알린다.
 - 고칠 것이 있으면 고쳐서 다시 보인다.
 
 ## 5. 올리기 (승인된 것만)
@@ -76,7 +75,7 @@ PR 마다 초안을 만든다. 팀의 리뷰 문체를 따른다: 한국어, 존
 리뷰 하나로 묶어 올린다:
 ```bash
 gh api repos/<owner>/<repo>/pulls/<N>/reviews -X POST --input <payload.json>
-# payload: {"event": "COMMENT|REQUEST_CHANGES|APPROVE", "body": "...", "commit_id": "<head sha>",
+# payload: {"event": "COMMENT", "body": "...", "commit_id": "<head sha>",
 #           "comments": [{"path": "...", "line": <n>, "side": "RIGHT", "body": "..."}]}
 ```
 - `commit_id` 는 리뷰한 시점의 head SHA(`gh pr view <N> --json headRefOid`). 그사이 새 커밋이 올라왔으면 사용자에게 알리고 다시 볼지 묻는다.
@@ -85,7 +84,7 @@ gh api repos/<owner>/<repo>/pulls/<N>/reviews -X POST --input <payload.json>
 
 ## 6. 보고
 
-| PR | 리뷰 상태 | 올린 지적 수 (인라인/본문) | 링크 |
-|---|---|---|---|
+| PR | 올린 지적 수 (인라인/본문) | 링크 |
+|---|---|---|
 
 그리고 뺀 지적과 이유, 다음에 다시 볼 PR(새 커밋이 오면 다시 리뷰할 것)을 적는다. 리뷰하며 AI 쪽에 할 일이 생겼으면(계약 차이, AI 코드 수정 필요) 한 줄로 알리고 `/mm-harness:ai-feature` 나 `/mm-harness:ai-issue-reply` 로 이어 갈 수 있다고 적는다. 설명이 필요하면 `/mm-harness:teach`·`how`·`why` 를 쓸 수 있다고 한 줄 덧붙인다.
