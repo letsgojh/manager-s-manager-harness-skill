@@ -116,7 +116,7 @@ Superpowers 스킬을 쓰되, 이 문서가 정한 부분은 Superpowers 기본�
 3. 확인되면 `gh issue create --label ... --body-file ...` 로 만든다. 요청 이슈가 있으면 본문 "근거"에 링크한다.
    만든 뒤 담당자를 멘션하는 댓글을 단다 (`gh issue comment`). 이 목록 밖의 사람은 멘션하지 않는다.
    - `ai→fe`: `@hotpringles`
-   - `ai→be` (계약 포함): `@hwnv @wjddnjswns`
+   - `ai→be` (계약 포함): `@hwnv @wkddnjswns`
    댓글에는 무엇을 확인해 달라는지 한 줄(본문의 "확인할 것" 체크리스트)을 적는다.
 4. 만든 이슈 번호를 PR 본문 "다른 파트 전달"에 적는다. 계약 변경 이슈가 합의 전이면 PR 의 "사람이 확인할 것"에도 적는다.
 
