@@ -21,6 +21,7 @@ Claude Code 에서:
 |---|---|
 | `/mm-harness:ai-feature <#이슈번호 \| 기능 설명>` | 설계 → 테스트 먼저 구현 → pytest → 셀프 리뷰 → develop 대상 PR 생성. 이슈로 부르면 설계 확정을 이슈 댓글로 남기고 PR 에 `Closes` 를 단다. BE·FE 에 전달할 것이 있을 때만 `ai→be`·`ai→fe` 이슈 초안을 만들어 확인받고 올린다. 머지는 사람이 한다 |
 | `/mm-harness:ai-pr-reply [PR번호]` | PR 리뷰를 모아 지적마다 판정. 맞는 지적은 고쳐서 push 후 답글, 반박·질문 답글은 사용자 승인 후 단다 |
+| `/mm-harness:ai-issue-reply <이슈번호[,번호...]>` | 다른 파트에 넘긴 이슈(`ai→be`·`ai→fe`·`contract`)의 답을 항목마다 대조하고, 수정안·질문은 사용자와 정한 뒤 승인받은 답글을 단다. 합의되면 `합의됨` 라벨, 계약 문서 PR, 후속 AI 요청 이슈 정리. 코드는 고치지 않는다. 사용자가 부를 때만 동작 |
 | `/mm-harness:grill-me` | 설계·계획만 따로 질문 라운드로 다듬는다 |
 | `/mm-harness:teach <대상>` | 변경·PR·설계·서브시스템을 쉽게 설명한다. how·why 절차를 돌려 하나의 설명으로 엮는다. 사용자가 부를 때만 동작 |
 | `/mm-harness:how <질문>` | "X 는 어떻게 동작하나". 코드를 탐색해 구조와 실행 흐름을 설명한다. 사용자가 부를 때만 동작 |
@@ -35,6 +36,7 @@ Claude Code 에서:
 | 에이전트 `ai-reviewer` | `agents/ai-reviewer.md` | sonnet, 읽기 전용. diff 리뷰 |
 | 스킬 `ai-feature` | `skills/ai-feature/` | 기능 하네스. small 은 메인 세션에서, large 는 grilling 으로 설계 확정 후 `superpowers:subagent-driven-development` |
 | 스킬 `ai-pr-reply` | `skills/ai-pr-reply/` | PR 리뷰 답변. `superpowers:receiving-code-review` 원칙 |
+| 스킬 `ai-issue-reply` | `skills/ai-issue-reply/` | 다른 파트 이슈 답변 처리. 계약 결정은 `grilling` 으로 사람이 정한다. `disable-model-invocation` |
 | 스킬 `grilling`, `grill-me` | `skills/grilling/`, `skills/grill-me/` | 설계를 사용자와 질문 라운드로 정한다. 질문마다 배경·선택지별 결과·추천 이유를 쓰고, 라운드마다 이해한 결정을 확인한다. 아래 출처 참고 |
 | 스킬 `how`, `why`, `teach` | `skills/how/`, `skills/why/`, `skills/teach/` | 사용자가 모르는 것을 물을 때 쓰는 설명 스킬. `disable-model-invocation` 이라 파이프라인 중에 자동으로 끼어들지 않는다. 아래 출처 참고 |
 | Stop 훅 | `hooks/ai-tests-gate.sh` | `ai/*.py` 가 바뀐 채 응답을 끝내면 `ai/.venv` 로 pytest. 실패하면 끝내지 못하게 막고, 같은 상태로 통과했으면 건너뛰고, 연속 3번 막으면 연다. `ai/.venv` 가 없는 저장소에서는 아무것도 하지 않는다 |
