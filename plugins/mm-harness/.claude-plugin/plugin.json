@@ -1,7 +1,7 @@
 {
   "name": "mm-harness",
   "displayName": "Manager's Manager AI 하네스",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Manager's Manager 저장소 ai/ 파트 전용 하네스: 역할별 에이전트(설계·구현·리뷰), PR 리뷰 답변, ai pytest Stop 훅 게이트",
   "author": {
     "name": "letsgojh"
